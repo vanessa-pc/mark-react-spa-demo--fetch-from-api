@@ -19,8 +19,11 @@ function printExampleJoke() {
 function printGeneralJoke() {
   fetch("https://official-joke-api.appspot.com/jokes/general/random")
     .then((res) => res.json())
-    /** TS doesn't know that res is an array */
-    .then((res) => console.log(res.setup, res.punchline));
+    .then((res) => {
+      // console.log(res) /* de-comment to troubleshoot */
+      /** TS doesn't know that res is an array */
+      console.log(res.setup, res.punchline);
+    });
 }
 
 async function printProgrammingJoke() {
@@ -28,6 +31,7 @@ async function printProgrammingJoke() {
     "https://official-joke-api.appspot.com/jokes/programming/random"
   );
   const jsonBody = await response.json();
+  // console.log(jsonBody) /* de-comment to troubleshoot */
   /** TS doesn't know that jsonBody is an array */
   console.log(jsonBody.setup, jsonBody.punchline);
 }
