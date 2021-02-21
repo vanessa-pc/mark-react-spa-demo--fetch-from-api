@@ -1,5 +1,5 @@
 {
-  "name": "mark-react-spa-demo--async-await",
+  "name": "mark-react-spa-demo--fetch-from-api",
   "version": "0.0.1",
   "scripts": {
     "build": "tsc"
