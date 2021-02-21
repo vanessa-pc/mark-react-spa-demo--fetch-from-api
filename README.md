@@ -44,3 +44,11 @@ Then, try substituting the joke API url with:
 - `https://api.kanye.rest/`
 
 and see what comes back again.
+
+## Demo 1: type unsafety of `fetch`
+
+> 🎯 **Success criterion:** You can explain the lack of type safety in `any` and in `fetch`
+
+We've been using TypeScript and enjoying the benefits of static type safety which it gives to us.
+
+For example, in demo 1, TypeScript stops us from trying to read the `setup` and `punchline` properties of our `jokeResponse` variable - it can see that it's an array. However, it will let us read `jokeResponse[0].setup` and `jokeResponse[1].punchline` - so, comment out the line with type errors, run the demo, and you'll see our joke output in the terminal.
