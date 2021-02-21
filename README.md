@@ -105,6 +105,24 @@ We've just said that `any` is a really dangerous type which we should try to avo
 
 So, why is `Response.body()` typed as `any`?
 
+Well, we saw in Exercise 0 that `fetch` can get data from an arbitrary API, which can come back in very different forms and shapes. For example, [PokéApi](https://pokeapi.co/) returns JSON data that has entirely different properties to the Joke API.
+
+What this means is that `fetch("https://official-joke-api.appspot.com/jokes/general/random")` and `fetch("https://pokeapi.co/api/v2/pokemon/ditto")` are ultimately going to return very different shapes of data - but it's impossible for us to know purely from the URL what form of data we might get back.
+
+All that TypeScript can see is a `fetch` and a string URL - which means that TypeScript is also in the dark about what shape of data is going to come back.
+
+Now, there is a type for this - the [`unknown` type](https://www.typescriptlang.org/docs/handbook/basic-types.html#unknown), which is intended _exactly_ for this purpose of 'who knows what this is - be careful with it!'.
+
+`Promise<unknown>` would be a _great_ return typing for `Response.json()`. Unfortunately, it's typed as `Promise<any>`.
+
+_Speculatively_, the reason for this might be that `unknown` is a new-ish type in TypeScript ([released in version 3.0](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type))...
+
+> TypeScript 3.0 introduces a new top type `unknown`. `unknown` is the type-safe counterpart of `any`.
+
+... and, in the (previous) absence of `unknown`, `any` was the best that could be managed - and now, with different codebases built around `fetch` being typed as `any`, it's now considered too harmful to change it to the (more appropriate type) of `unknown` (which would break a lot of existing code).
+
+It is possible to [write a utility function that's a type-safe version of `fetch`](https://www.carlrippon.com/type-safe-data-fetching-with-unknown/), using the `unknown` type.
+
 ### Avoiding the temptation of `any`
 
 It can be very tempting to reach for `any` to make a TypeScript error go away - but you're not really fixing the problem if you do this. TypeScript errors are warning us about things which are likely to cause bugs or break in production. The `any` type is a bit like closing your eyes, sticking your hands over your ears and going "LA LA LA I CAN'T HEAR OR SEE ANY PROBLEMS LALALA ALL IS FINE" - it doesn't actually treat the underlying issue.
