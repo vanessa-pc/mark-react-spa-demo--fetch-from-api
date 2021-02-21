@@ -144,9 +144,12 @@ This isn't a perfect solution - it's still not entirely type-safe.
 Since the resolve type of `Response.json()` is `any`, we can narrow it down to _anything_ - we happen to have chosen `Joke[]` (which matches our API response), but it would also have let us narrow it down to all of the below:
 
 - `boolean`
+- `{ firstName: string; lastName: string; }`
 - `string[]`
 - `number[][]`
 
 none of which would have been correct (but all of which would have been allowed).
 
 (Try it with all of these!)
+
+So, if you use this strategy, you need to make sure that you are very very confident that you are accurately narrowing down the `any` type, because TypeScript won't be able to tell and warn you if you're not doing it accurately!
