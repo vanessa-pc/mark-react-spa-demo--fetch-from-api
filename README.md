@@ -49,13 +49,13 @@ and see what comes back again.
 
 > 🎯 **Success criterion:** You can explain the lack of type safety in `any` and in `fetch`
 
-We've been using TypeScript and enjoying the benefits of static type safety which it gives to us.
+We've been using TypeScript and enjoying the benefits of static type safety which it gives to us, which [ordinary JavaScript lacks](https://github.com/WeAreAcademy/mark-fundamentals-proj--ts-hello-typescript).
 
 For example, in demo 1's `printExampleJoke`, TypeScript stops us from trying to read the `setup` and `punchline` properties of our `jokeResponse` variable - it can see that it's an array. However, it will let us read `jokeResponse[0].setup` and `jokeResponse[1].punchline` - so, comment out the line with type errors, run the demo, and you'll see our joke output in the terminal.
 
 Unfortunately... we get no such help from TypeScript in `printGeneralJoke` and `printProgrammingJoke`, when we `fetch` data from the Joke API. If you try running either, you'll see `undefined` get spit out into the terminal.
 
-Why is it printing `undefined`? If you de-comment the debugging `console.log`s in the functions and try the functions running again, you'll see that it prints out a structure which looks very similar to `jokeResponse` - an array with one element, an object, which has the `setup` and `punchline` properties. So, just like with `printExampleJoke`, we should be reading and printing `res[0].setup` and `jsonBody[0].setup`.
+Why is it printing `undefined`? If you de-comment the debugging `console.log`s in the functions and try the functions running again, you'll see that it prints out a structure which looks very similar to `jokeResponse` - an array with one element, an object, which has the `setup` and `punchline` properties. So, just like with `printExampleJoke`, we should be reading and printing `json[0].setup` and `jsonBody[0].punchline`.
 
 But why didn't TypeScript warn us that we were doing something wrong like it did with `printExampleJoke`?
 
@@ -80,6 +80,30 @@ Replace the start of our `jokeResponse` variable definition as follows:
 Now, TypeScript will no longer catch the mistake in `console.log(jokeResponse.setup, jokeResponse.punchline)`. In fact, it'll let you do all sorts of weird things, like `jokeResponse + 1` or `jokeResponse("hello world!")`.
 
 In other words, the `any` type is a reckless _"anything goes!"_ type. We can see that `jokeResponse` is an array, which means it's enormously silly to try to read a `.setup` property, add `1` to it or execute it with an argument of `"hello world!"` - but, by asking TypeScript to treat it as `any`, it's letting us do all manner of silly things.
+
+### The typing of `fetch`
+
+[`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is typed to return `Promise<Response>`. This means that:
+
+1. The `.then` callback on a `fetch` result can take a `Response` type argument
+2. `await`ing a `fetch` returns a `Response` type
+
+which you will be able to see by hovering over the `response` variable in both `printGeneralJoke` and `printProgrammingJoke`.
+
+A [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object has a [`.json()` method](https://developer.mozilla.org/en-US/docs/Web/API/Body/json), which is typed to return `Promise<any>`. This means that:
+
+1. The `.then` callback on a `Response.json()` result takes `any` as an argument
+2. `await`ing a `fetch` returns an `any` type
+
+which is why, when you hover over `jsonBody`, you'll see that it is typed as `any`.
+
+So, because of that, TypeScript's compiler won't spot or warn you about doing all sorts of silly things which will lead to JavaScript problems and bugs.
+
+### Why is `Response.body()` typed as `any`?
+
+We've just said that `any` is a really dangerous type which we should try to avoid.
+
+So, why is `Response.body()` typed as `any`?
 
 ### Avoiding the temptation of `any`
 

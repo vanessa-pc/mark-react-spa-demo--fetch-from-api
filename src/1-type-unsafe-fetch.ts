@@ -18,11 +18,11 @@ function printExampleJoke() {
 
 function printGeneralJoke() {
   fetch("https://official-joke-api.appspot.com/jokes/general/random")
-    .then((res) => res.json())
-    .then((res) => {
-      // console.log(res) /* de-comment to troubleshoot */
-      /** TS doesn't know that res is an array */
-      console.log(res.setup, res.punchline);
+    .then((response) => response.json())
+    .then((jsonBody) => {
+      // console.log(jsonBody) /* de-comment to troubleshoot */
+      /** TS doesn't know that jsonBody is an array */
+      console.log(jsonBody.setup, jsonBody.punchline);
     });
 }
 
