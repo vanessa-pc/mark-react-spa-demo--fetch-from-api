@@ -123,6 +123,8 @@ _Speculatively_, the reason for this might be that `unknown` is a new-ish type i
 
 It is possible to [write a utility function that's a type-safe version of `fetch`](https://www.carlrippon.com/type-safe-data-fetching-with-unknown/), using the `unknown` type.
 
+We're not going to do this now - for now, we'll simply encourage you to have _healthy scepticism_ about the `any` typing of the JSON body you get back from `fetch`, because _it is not type-safe_.
+
 ### Avoiding the temptation of `any`
 
 It can be very tempting to reach for `any` to make a TypeScript error go away - but you're not really fixing the problem if you do this. TypeScript errors are warning us about things which are likely to cause bugs or break in production. The `any` type is a bit like closing your eyes, sticking your hands over your ears and going "LA LA LA I CAN'T HEAR OR SEE ANY PROBLEMS LALALA ALL IS FINE" - it doesn't actually treat the underlying issue.
