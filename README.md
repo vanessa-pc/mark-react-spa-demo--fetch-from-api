@@ -130,3 +130,23 @@ We're not going to do this now - for now, we'll simply encourage you to have _he
 It can be very tempting to reach for `any` to make a TypeScript error go away - but you're not really fixing the problem if you do this. TypeScript errors are warning us about things which are likely to cause bugs or break in production. The `any` type is a bit like closing your eyes, sticking your hands over your ears and going "LA LA LA I CAN'T HEAR OR SEE ANY PROBLEMS LALALA ALL IS FINE" - it doesn't actually treat the underlying issue.
 
 For more on avoiding the use of `any`, read ["TypeScript: stop using `any`, there's a type for that"](https://thoughtbot.com/blog/typescript-stop-using-any-there-s-a-type-for-that).
+
+## Demo 2: narrowing `fetch`
+
+> 🎯 **Success criterion:** You can narrow the `any` resolve value from `Response.json()`
+
+One possible strategy for dealing with `fetch`'s typing (or ultimate typing in `Response.json()`) is to manually narrow it down, as shown in demo 2.
+
+If, by inspecting the documentation and/or making some sample requests, we know that `jsonBody` follows a certain structure, we can declare that type - as we have with the `Joke` interface and the `Joke[]` type given to `jsonResponse`. This is narrower than `any` - we can't read `jsonResponse.setup` and `jsonResponse.punchline`, but we _can_ read `jsonResponse[0].setup` and `jsonResponse[0].punchline`.
+
+This isn't a perfect solution - it's still not entirely type-safe.
+
+Since the resolve type of `Response.json()` is `any`, we can narrow it down to _anything_ - we happen to have chosen `Joke[]` (which matches our API response), but it would also have let us narrow it down to all of the below:
+
+- `boolean`
+- `string[]`
+- `number[][]`
+
+none of which would have been correct (but all of which would have been allowed).
+
+(Try it with all of these!)
