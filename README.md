@@ -93,17 +93,17 @@ which you will be able to see by hovering over the `response` variable in both `
 A [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object has a [`.json()` method](https://developer.mozilla.org/en-US/docs/Web/API/Body/json), which is typed to return `Promise<any>`. This means that:
 
 1. The `.then` callback on a `Response.json()` result takes `any` as an argument
-2. `await`ing a `fetch` returns an `any` type
+2. `await`ing a `Response.json()` returns an `any` type
 
 which is why, when you hover over `jsonBody`, you'll see that it is typed as `any`.
 
 So, because of that, TypeScript's compiler won't spot or warn you about doing all sorts of silly things which will lead to JavaScript problems and bugs.
 
-### Why is `Response.body()` typed as `any`?
+### Why is `Response.json()` typed as `any`?
 
 We've just said that `any` is a really dangerous type which we should try to avoid.
 
-So, why is `Response.body()` typed as `any`?
+So, why is `Response.json()` typed as `any`?
 
 Well, we saw in Exercise 0 that `fetch` can get data from an arbitrary API, which can come back in very different forms and shapes. For example, [PokéApi](https://pokeapi.co/) returns JSON data that has entirely different properties to the Joke API.
 
