@@ -8,7 +8,7 @@ function demoFetchWithThen() {
 
 async function demoFetchWithAwait() {
   const response = await fetch(
-    "https://official-joke-api.appspot.com/jokes/programming/random"
+    "https://dog.ceo/api/breeds/image/random"
   );
   const jsonBody = await response.json();
   console.log(jsonBody);

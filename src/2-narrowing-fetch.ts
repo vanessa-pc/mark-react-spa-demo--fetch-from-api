@@ -12,7 +12,7 @@ function printGeneralJoke() {
     .then((response) => response.json())
     .then((jsonBody: Joke[]) => {
       /** TS now treats jsonBody like an array */
-      console.log(jsonBody.setup, jsonBody.punchline);
+      console.log(jsonBody[0].setup, jsonBody[0].punchline);
     });
 }
 
@@ -22,9 +22,8 @@ async function printProgrammingJoke() {
   );
   const jsonBody: Joke[] = await response.json();
   /** TS now treats jsonBody like an array */
-  console.log(jsonBody.setup, jsonBody.punchline);
+  console.log(jsonBody[0].setup, jsonBody[0].punchline);
 }
 
-printExampleJoke();
-// printGeneralJoke();
+printGeneralJoke();
 // printProgrammingJoke();
